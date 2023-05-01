@@ -1,6 +1,7 @@
 package lab2.chatService;
 
 import jdk.net.Sockets;
+import lab1.upperCase.iterativeServer.Server;
 
 import javax.sound.sampled.SourceDataLine;
 import javax.xml.crypto.Data;
@@ -19,7 +20,9 @@ public class ServerThread extends Thread{
 
     private QueueOfMessages queue;
 
-    private ArrayList<Socket> sockets = new ArrayList<>(); //Socket
+    //private ArrayList<Socket> sockets = new ArrayList<>(); //Socket
+
+    private ArrayList<ServerThread> serverThreads = new ArrayList<>();
 
     //private ArrayList<DataOutputStream> dataOut = new ArrayList<>();
 
@@ -27,7 +30,10 @@ public class ServerThread extends Thread{
 
         this.connectionSocket = s;
 
-        this.sockets.add(this.connectionSocket);
+        //this.sockets.add(this.connectionSocket);
+
+        /** JUST ADDED LAST CHANCE*/
+        serverThreads.add(this);
 
         this.queue = q;
 
@@ -62,9 +68,9 @@ public class ServerThread extends Thread{
                 while (!message.equals("QUIT")) {
 
 
-                    for (Socket s : sockets) { // dataOut
+                    for (ServerThread s : serverThreads) { // dataOut //sockets
 
-                        System.out.println("Client: " + s.toString());
+                        System.out.println("Client: " + s.getName()); //s.toString()
                     }
 
                     //message = inFromClient.readLine();
@@ -74,19 +80,28 @@ public class ServerThread extends Thread{
 
                     //queue.put(resultFromServer);
 
-                    synchronized (this.sockets) {
-                        for (Socket s : sockets) // dataOut
+                    synchronized (this.serverThreads) { //sockets
+                        for (ServerThread s : serverThreads) // dataOut //sockets
                         {
 
                             message = inFromClient.readLine();
-                            resultFromServer = "What you said to me was " + message + "\n";
-                            System.out.println(resultFromServer);
+                            resultFromServer = "What you said to me was " + message;
 
                             queue.put(resultFromServer);
 
+                            System.out.println(resultFromServer);
 
-                            new DataOutputStream(s.getOutputStream()).writeBytes("Client: "+ s);
-                            new DataOutputStream(s.getOutputStream()).writeBytes(queue.getMessage());
+
+                            //new DataOutputStream(s.outToClient.getOutputStream()).writeBytes("Client: "+ s);
+                            s.outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+                            s.outToClient.writeBytes("Client: " + s);
+                            s.outToClient.writeBytes(queue.getMessage());
+
+                            //s.outToClient.flush();
+
+
+                            //new DataOutputStream(s.getOutputStream()).writeBytes("Client: "+ s);
+                            //new DataOutputStream(s.getOutputStream()).writeBytes(queue.getMessage());
 
                             //outToClient.writeBytes("Client: " + s.toString());
                             //s.writeBytes("Client: "+ s);
@@ -94,6 +109,9 @@ public class ServerThread extends Thread{
                             // s.writeBytes(queue.getMessage());
                             //outToClient.writeBytes(queue.getMessage());
                         }
+
+                        
+
                     }
 
 

@@ -1,20 +1,16 @@
-package lab2.chatService;
+package lab2.studentsStats;
 
-import lab1.upperCase.iterativeServer.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
-public class MultiServer {
+public class ServerUniversity {
 
     public static void main(String[] args) throws IOException {
 
         ServerSocket welcomeSocket = new ServerSocket(8888);
-
-        QueueOfMessages queue = new QueueOfMessages();
-
+        QueueOfJSONs queue = new QueueOfJSONs();
 
         while (true) {
             Socket connectionSocket = welcomeSocket.accept();
@@ -25,8 +21,12 @@ public class MultiServer {
             // the start of the thread
             theThread.start();
 
-
             System.out.println("SERVER READY");
         }
+
     }
+
+
+
+
 }
