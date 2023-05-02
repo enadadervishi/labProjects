@@ -18,7 +18,7 @@ come faccio a "leggere" ogni file?
 
 poi come faccio a connetterli tra client e server?
 
-##lab3 general package:
+## lab3 general package:
 problema con le dipendenze in build.gradle non riesco a leggere
 file proto.
 mosquitto etc etc non svolti ancora
