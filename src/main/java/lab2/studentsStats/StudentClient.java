@@ -18,7 +18,7 @@ public class StudentClient {
 
         System.out.println("STUDENT CONNECTED");
 
-        Student s2 = new Student();
+        Student s2 = new Student("first01");
         s2.setStudentFile();
 
     }

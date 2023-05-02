@@ -11,14 +11,13 @@ public class Writing {
     JSONObject person = new JSONObject();
     FileWriter fileWriter;
 
-    /**
     public Writing() throws IOException {
         this.person.put(" name ", " Tonio ");
         this.person.put(" surname ", " Cartonio ");
 
         this.person.put(" children ", List.of(" Lupo Lucio ", " Orco Rubio ", " Strega Salamadra "));
 
-        fileWriter = new FileWriter("src/main/resources/outputJSON.json");
+        fileWriter = new FileWriter("src/main/resources/lab2/outputJSON.json");
     }
 
     public void writingJSON() throws IOException {
@@ -28,6 +27,5 @@ public class Writing {
         System.out.println(this.person);
     }
 
-     */
 
 }
